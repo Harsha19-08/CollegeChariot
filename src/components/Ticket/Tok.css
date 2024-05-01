@@ -1,0 +1,109 @@
+:root {
+    --talk-tag-color: rgba(37, 37, 37, 0.30);
+    --bm-max-grid-width: 1440px;
+    --bm-columns: 14;
+    --bm-col-width: calc(min(100vw, var(--bm-max-grid-width)) / var(--bm-columns));
+    --bm-gutter: var(--bm-col-width);
+    --bm-container: calc(min(var(--bm-max-grid-width), 100vw) - var(--bm-gutter) * 2);
+    --global-color: #fff;
+    --body-color: #d5e1e1;
+    --black-color: #252525;
+    --light-color: #FFF5DA;
+    --white-color: #ffffff;
+    --outline-color: #000;
+    --hover-border: #252525;
+}
+
+.bigmarker-cg-home-strong-btn {
+    font-family: 'Whyte Inktrap', sans-serif;
+    box-sizing: border-box;
+    outline: none;
+    -webkit-font-smoothing: antialiased;
+    border: 0;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 300px;
+    background: #0000FF;
+    overflow: hidden;
+    position: relative;
+    maxWidth: none;
+    height: 198px; /* Adjusted height */
+}
+
+.bigmarker-cg-home-strong-btn-hover {
+    display: none;
+    justify-content: left;
+    align-items: center;
+    gap: 32px;
+    white-space: nowrap;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Adjusted width */
+    bottom: 0;
+}
+
+.bigmarker-cg-home-strong-btn-hover span {
+    font-size: 3rem;
+    color: #FFF5DA;
+    font-weight: 350;
+    letter-spacing: -0.48px;
+    line-height: 1.05em;
+    animation: slidein 3s ease-in 1s infinite reverse both; /* Adjusted animation */
+}
+
+.bigmarker-cg-home-strong-btn-hover i svg {
+    display: block;
+}
+
+@keyframes slidein {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@media (any-hover: hover) {
+    .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-hover {
+        display: flex;
+    }
+}
+
+@media (prefers-reduced-motion) {
+    .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-hover {
+        display: none !important;
+    }
+    .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-default {
+        display: block !important;
+    }
+}
+@keyframes slidein {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@media (any-hover: hover) {
+    .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-hover {
+        display: flex;
+    }
+}
+
+@media (prefers-reduced-motion) {
+    .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-hover {
+        display: none !important;
+    }
+    .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-default {
+        display: block !important;
+    }
+}

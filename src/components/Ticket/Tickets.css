@@ -1,0 +1,245 @@
+@media screen and (max-width: 767px) {
+    .language-en .bigmarker-cg-home-strong-btn-default {
+        font-size: 2.25rem;
+    }
+    .language-en .bigmarker-cg-home-strong-btn-hover span {
+        font-size: 2.25rem;
+    }
+    .language-es .bigmarker-cg-home-strong-btn-default {
+        font-size: 1.5rem;
+    }
+    .language-es .bigmarker-cg-home-strong-btn-hover span {
+        font-size: 1.5rem;
+    }
+    .language-es .bigmarker-cg-home-strong-btn {
+        height: 121px;
+    }
+    .language-de-de .bigmarker-cg-home-strong-btn-default {
+        font-size: 1.5rem;
+    }
+    .language-de-de .bigmarker-cg-home-strong-btn-hover span {
+        font-size: 1.5rem;
+    }
+    .language-de-de .bigmarker-cg-home-strong-btn {
+        height: 121px;
+    }
+    .language-fr-fr .bigmarker-cg-home-strong-btn-default {
+        font-size: 1.5rem;
+    }
+    .language-fr-fr .bigmarker-cg-home-strong-btn-hover span {
+        font-size: 1.5rem;
+    }
+    .language-fr-fr .bigmarker-cg-home-strong-btn {
+        height: 121px;
+    }
+    .language-ja-jp .bigmarker-cg-home-strong-btn-default {
+        font-size: 1.5rem;
+    }
+    .language-ja-jp .bigmarker-cg-home-strong-btn-hover span {
+        font-size: 1.5rem;
+    }
+    .language-ja-jp .bigmarker-cg-home-strong-btn {
+        height: 121px;
+    }
+    .language-ko-kr .bigmarker-cg-home-strong-btn-default {
+        font-size: 1.5rem;
+    }
+    .language-ko-kr .bigmarker-cg-home-strong-btn-hover span {
+        font-size: 1.5rem;
+    }
+    .language-ko-kr .bigmarker-cg-home-strong-btn {
+        height: 121px;
+    }
+}
+
+@media (max-width: 580px) {
+    .bigmarker-cg-home-strong-btn-default.lang-es+.bigmarker-cg-home-strong-btn-hover span,
+    .bigmarker-cg-home-strong-btn-default.lang-de-de+.bigmarker-cg-home-strong-btn-hover span,
+    .bigmarker-cg-home-strong-btn-default.lang-fr-fr+.bigmarker-cg-home-strong-btn-hover span {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .bigmarker-cg-home-strong-btn {
+        height: 134px;
+    }
+    .bigmarker-cg-home-strong-btn.small {
+        font-size: 1.5rem;
+    }
+    .bigmarker-cg-home-strong-btn-default {
+        font-size: 2.25rem;
+        font-size: min(9.6vw, 1.5rem);
+    }
+    .bigmarker-cg-home-strong-btn-hover span {
+        font-size: 2.25rem;
+        font-size: min(9.6vw, 1.5rem);
+    }
+}
+
+@media screen and (min-width: 1441px) {
+    .bigmarker-cg-home-strong-btn {
+        height: 270px;
+    }
+    .bigmarker-cg-home-strong-btn {
+        max-width: none;
+    }
+    .bigmarker-cg-home-strong-btn {
+        height: 198px;
+    }
+}
+
+@media (any-hover: hover) {
+    .bigmarker-cg-home-strong-btn:hover {
+        /* justify-content: left; */
+    }
+    .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-default,
+    .bigmarker-cg-home-strong-btn:focus-visible .bigmarker-cg-home-strong-btn-default {
+        display: none;
+    }
+    .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-hover,
+    .bigmarker-cg-home-strong-btn:focus-visible .bigmarker-cg-home-strong-btn-hover {
+        display: flex;
+        animation: marquee 20s linear infinite;
+    }
+}
+
+@media (prefers-reduced-motion) {
+    .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-hover,
+    .bigmarker-cg-home-strong-btn:focus-visible .bigmarker-cg-home-strong-btn-hover {
+        display: none !important;
+        animation: none !important;
+    }
+    .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-default,
+    .bigmarker-cg-home-strong-btn:focus-visible .bigmarker-cg-home-strong-btn-default {
+        display: block !important;
+    }
+}
+
+.bigmarker-cg-home-strong-btn-hover span {
+    font-size: 3rem;
+    color: #FFF5DA;
+    font-weight: 350;
+    letter-spacing: -0.48px;
+    line-height: 1.05em;
+    
+    
+    
+}
+
+.bigmarker-cg-home-strong-btn-hover i svg {
+    display: block;
+}
+
+.bigmarker-cg-home-strong-btn-hover {
+    display: none;
+    justify-content: left;
+    align-items: center;
+    gap: 32px;
+    white-space: nowrap;
+    position: absolute;
+    top: 0;
+    left: 229px;
+    left: 0;
+    width: 3223px;
+    bottom: 0;
+}
+
+.bigmarker-cg-home-strong-btn-default {
+    display: block;
+    font-size: 3rem;
+    color: #FFF5DA;
+    font-weight: 350;
+    letter-spacing: -0.48px;
+}
+
+.bigmarker-cg-home-strong-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 242px;
+    max-width: 699px;
+    border-radius: 300px;
+    background: #0000FF;
+    overflow: hidden;
+    position: relative;
+}
+
+.bigmarker-cg-home-strong-btn:focus-visible {
+    outline: #FFF5DA 2px solid;
+    outline-offset: 10px;
+}
+
+:root {
+    --talk-tag-color: rgba(37, 37, 37, 0.30);
+    --bm-max-grid-width: 1440px;
+    --bm-columns: 14;
+    --bm-col-width: calc(min(100vw, var(--bm-max-grid-width)) / var(--bm-columns));
+    --bm-gutter: var(--bm-col-width);
+    --bm-container: calc(min(var(--bm-max-grid-width), 100vw) - var(--bm-gutter) * 2);
+    --global-color: #fff;
+    --body-color: #d5e1e1;
+    --black-color: #252525;
+    --light-color: #FFF5DA;
+    --white-color: #ffffff;
+    --outline-color: #000;
+    --hover-border: #252525;
+}
+
+.bigmarker-cg-home-strong-btn {
+    font-family: 'Whyte Inktrap', sans-serif;
+    box-sizing: border-box;
+    outline: none;
+    -webkit-font-smoothing: antialiased;
+    border: 0;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 300px;
+    background: #0000FF;
+    overflow: hidden;
+    position: relative;
+    maxWidth: none;
+    height: 198px; /* Adjusted height */
+}
+.bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-hover {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 32px;
+    white-space: nowrap;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    animation: slidein 8s linear infinite; /* Adjusted animation */
+}
+
+@keyframes slidein {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-300%);
+    }
+}
+
+    @media (any-hover: hover) {
+        .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-hover {
+            display: flex;
+        }
+    }
+    
+    @media (prefers-reduced-motion) {
+        .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-hover {
+            display: none !important;
+        }
+        .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-default {
+            display: block !important;
+        }
+    }

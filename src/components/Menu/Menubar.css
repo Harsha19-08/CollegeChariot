@@ -1,0 +1,21 @@
+.menu-icon{
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.menu-item {
+    font-size: 16px;
+   
+    color: #3610a9;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .menu-item:hover {
+    background-color: #f0f0f0;
+    color: #555;
+  }
