@@ -62,12 +62,12 @@ const Banner = () => {
       <div className="container" style={{minHeight:"100px",    position: "unset"}}>
         <div className="banner-wrapper">
           <div className="banner-content">
-            <h1 className="title">Get Your Ticket Online, Easy and Safely</h1>
-            <a href="tickets" className="cmn--btn"style={{background:"#1743e3",textDecoration:"none",}}>Get ticket now</a>
+            <h1 className="title">Get Your Buss Pass Online, Easy and Safely</h1>
+            <a href="tickets" className="cmn--btn"style={{background:"#1743e3",textDecoration:"none",}}>Get Pass now</a>
           </div>
           <div className="ticket-form-wrapper">
             <div className="ticket-header nav-tabs nav border-0">
-              <h4 className="title"style={{position:"unset"}}>Choose Your Ticket</h4>
+              <h4 className="title"style={{position:"unset"}}>Choose Your Pass</h4>
             </div>
             <div className="tab-content">
               <div className="tab-pane fade show active" id="one-way">
@@ -106,7 +106,7 @@ const Banner = () => {
                   </div>
                   <div className="col-md-6">
                     <div className="form--group" style={{background:"#1743e3",borderRadius:'5px',}}>
-                      <button style={{background:"#1743e3",borderRadius:'5px',textAlign:"center",}}>Find Tickets</button>
+                      <button style={{background:"#1743e3",borderRadius:'5px',textAlign:"center",}}>Find Bus</button>
                     </div>
                   </div>
                 </form>
