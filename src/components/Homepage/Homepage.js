@@ -1,16 +1,14 @@
 import React from 'react';
-
 import './Hompage.css';
-
 import Banner from '../Banner/Banner';
 import Navbar2 from '../Navbar2/Navbar2';
 import {  Col,  Row } from 'antd';
 import Footer from '../Footer/Footer';
-
-
 import Tickets from '../Ticket/Tickets';
 import Services from '../Services/Services';
 import { Element } from 'react-scroll';
+import { Link } from 'react-router-dom';
+import Quicklinks from '../../Pages/QuickLinks/Quicklinks';
 
 
 
@@ -29,17 +27,16 @@ const style = {
 const Homepage = () => {
   return (
     <div>
-      <Navbar2/>
+      
       <div className='container-fluid top'>
         <div class="row">
       <div className=' col-8 top-head'>
            <h1>College Chariot</h1>
            <h3>Get the Bus pass right now!!</h3>
-           <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
+         <p>Welcome to MLRIT Engineering College Bus Service! Ensuring safe, reliable, and convenient transportation for our students and staff. Explore our services and find out how we make your daily commute easier.  
+          College Chariot is a platform that provides bus pass services to  students
            </p>
-           <a href='boom' className='bttn'>Explore College Chariot</a>
-
+           <Link to='/explore' className='bttn'>Explore College Chariot</Link>
       </div>
       <div className='col-4 home-img'>
         <div className='rhombus'>
@@ -111,7 +108,9 @@ const Homepage = () => {
             <Tickets/>
           </div>
 
-          
+        <div>
+          <Quicklinks/>
+        </div>
         <div style={{paddingTop:"20px"}}>
         <Footer/>
         </div>

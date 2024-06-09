@@ -9,7 +9,7 @@ const Tickets = () => {
         Get tickets
     </div>
     <div class="bigmarker-cg-home-strong-btn-hover fx fx-lc">
-        <span aria-hidden="true">Get tickets</span>
+        <span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
 <g clip-path="url(#clip0_358_10843)">

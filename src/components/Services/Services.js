@@ -12,13 +12,13 @@ const Services = () => {
             <Card
               hoverable
               style={{ backgroundColor: '#1743e3', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}
-              cover={<img alt="example" src="https://source.unsplash.com/random" />}
+              cover={<img alt="example" src="https://picsum.photos/200/300" />}
               className="transition-transform transform hover:scale-105"
             >
               <Link to="/Busspass" style={{ textDecoration: 'none' }}>
               <Card.Meta
-                title={<span className="text-white">Get College Passes</span>}
-                description={<span className="text-white">card content</span>}
+                title={<span className="text-white"style={{fontSize:"15px", fontWeight:"bold",letterSpacing:"1px"}}>Get College Passes</span>}
+                description={<span className="text-white">Apply online for your college bus pass quickly and easily.</span>}
               />
               </Link>
             </Card>
@@ -27,12 +27,12 @@ const Services = () => {
             <Card
               hoverable
               style={{ backgroundColor: '#1743e3', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}
-              cover={<img alt="example" src="https://source.unsplash.com/random" />}
+              cover={<img alt="example" src="https://picsum.photos/200/300" />}
               className="transition-transform transform hover:scale-105"
             >
               <Card.Meta
-                title={<span className="text-white">Bus Scheduling & Tracking</span>}
-                description={<span className="text-white">Card content</span>}
+                title={<span className="text-white"style={{letterSpacing:"1px",fontSize:"15px", fontWeight:"bold"}}>Bus Scheduling & Tracking</span>}
+                description={<span className="text-white">View schedules and track buses in real-time with our app.</span>}
               />
             </Card>
           </Col>
@@ -40,12 +40,12 @@ const Services = () => {
             <Card
               hoverable
               style={{ backgroundColor: '#1743e3', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}
-              cover={<img alt="example" src="https://source.unsplash.com/random" />}
+              cover={<img alt="example" src="https://picsum.photos/200/300" />}
               className="transition-transform transform hover:scale-105"
             >
               <Card.Meta
-                title={<span className="text-white">Student Information</span>}
-                description={<span className="text-white">Card content</span>}
+                title={<span className="text-white"style={{letterSpacing:"1px",fontSize:"15px", fontWeight:"bold"}}>Student Information</span>}
+                description={<span className="text-white">Access and manage your personal and bus-related information.</span>}
               />
             </Card>
           </Col>
@@ -53,12 +53,12 @@ const Services = () => {
             <Card
               hoverable
               style={{ backgroundColor: '#1743e3', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}
-              cover={<img alt="example" src="https://source.unsplash.com/random" />}
+              cover={<img alt="example" src="https://picsum.photos/200/300" />}
               className="transition-transform transform hover:scale-105"
             >
               <Card.Meta
-                title={<span className="text-white">Payment GateWay</span>}
-                description={<span className="text-white">Card content</span>}
+                title={<span className="text-white"style={{letterSpacing:"1px",fontSize:"15px", fontWeight:"bold"}}>Feedback and Support</span>}
+                description={<span className="text-white">Provide feedback or get support for any bus-related issues.</span>}
               />
             </Card>
           </Col>
