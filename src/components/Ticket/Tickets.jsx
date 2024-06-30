@@ -6,7 +6,7 @@ const Tickets = () => {
   return (
     <div><a class="bigmarker-cg-home-strong-btn" href="/registration?lang=en" aria-label="Get tickets">
     <div class="bigmarker-cg-home-strong-btn-default lang-en">
-        Get tickets
+        Get Passes
     </div>
     <div class="bigmarker-cg-home-strong-btn-hover fx fx-lc">
         <span aria-hidden="true">Get Passes</span>
@@ -26,7 +26,7 @@ const Tickets = () => {
 </defs>
 </svg>
 </i>
-        <span aria-hidden="true">Get tickets</span>
+        <span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 <g clip-path="url(#clip0_358_10845)">
@@ -47,7 +47,7 @@ const Tickets = () => {
 </defs>
 </svg>
 </i>
-        <span aria-hidden="true">Get tickets</span>
+        <span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="24" viewBox="0 0 8 24" fill="none">
 <g clip-path="url(#clip0_358_10841)">
@@ -60,7 +60,7 @@ const Tickets = () => {
 </defs>
 </svg>
 </i>
-        <span aria-hidden="true">Get tickets</span>
+        <span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 <g clip-path="url(#clip0_358_10843)">
@@ -77,7 +77,7 @@ const Tickets = () => {
 </defs>
 </svg>
 </i>
-        <span aria-hidden="true">Get tickets</span>
+        <span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 <g clip-path="url(#clip0_358_10845)">
@@ -98,7 +98,7 @@ const Tickets = () => {
 </defs>
 </svg>
 </i>
-        <span aria-hidden="true">Get tickets</span>
+        <span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 <g clip-path="url(#clip0_358_10843)">
@@ -115,7 +115,7 @@ const Tickets = () => {
 </defs>
 </svg>
 </i>
-        <span aria-hidden="true">Get tickets</span>
+        <span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 <g clip-path="url(#clip0_358_10845)">
@@ -136,7 +136,7 @@ const Tickets = () => {
 </defs>
 </svg>
 </i>
-        <span aria-hidden="true">Get tickets</span>
+        <span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="24" viewBox="0 0 8 24" fill="none">
 <g clip-path="url(#clip0_358_10841)">
@@ -149,7 +149,7 @@ const Tickets = () => {
 </defs>
 </svg>
 </i>
-        <span aria-hidden="true">Get tickets</span>
+        <span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 <g clip-path="url(#clip0_358_10843)">
@@ -166,7 +166,7 @@ const Tickets = () => {
 </defs>
 </svg>
 </i>
-        <span aria-hidden="true">Get tickets</span>
+        <span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 <g clip-path="url(#clip0_358_10845)">
@@ -187,7 +187,7 @@ const Tickets = () => {
 </defs>
 </svg>
 </i>
-<span aria-hidden="true">Get tickets</span>
+<span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 <g clip-path="url(#clip0_358_10843)">
@@ -204,7 +204,7 @@ const Tickets = () => {
 </defs>
 </svg>
 </i>
-        <span aria-hidden="true">Get tickets</span>
+        <span aria-hidden="true">Get Passes</span>
         <i>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 <g clip-path="url(#clip0_358_10845)">

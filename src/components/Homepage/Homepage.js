@@ -101,16 +101,17 @@ const Homepage = () => {
       </Element>
           <div class="planet"></div>
           <div class="moon"></div>
-          <div class="shimmering">
+          
+
+        <div>
+          <Quicklinks/>
+        </div>
+        <div class="shimmering">
             Hover over me to see the shimmer effect!
           </div>
           <div class="stars">
             <Tickets/>
           </div>
-
-        <div>
-          <Quicklinks/>
-        </div>
         <div style={{paddingTop:"20px"}}>
         <Footer/>
         </div>

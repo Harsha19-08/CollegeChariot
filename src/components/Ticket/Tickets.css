@@ -203,8 +203,8 @@
     background: #0000FF;
     overflow: hidden;
     position: relative;
-    maxWidth: none;
-    height: 198px; /* Adjusted height */
+    max-Width: 190px;
+    height: 100px; /* Adjusted height */
 }
 .bigmarker-cg-home-strong-btn:hover .bigmarker-cg-home-strong-btn-hover {
     display: flex;

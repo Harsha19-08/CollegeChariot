@@ -3,8 +3,18 @@ import { UploadOutlined } from '@ant-design/icons';
 
 
 import { Layout, Menu, Breadcrumb, message, theme } from 'antd';
-import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
+import { DesktopOutlined, PayCircleOutlined,IdcardOutlined, PieChartOutlined,NotificationOutlined , TeamOutlined, UserOutlined } from '@ant-design/icons';
 import { Form, Input, Select, DatePicker, Upload, Button } from 'antd';
+import RenewPass from '../RenewPass';
+import ViewPass from '../../Pages/ViewPass';
+import ManagePass from '../../Pages/ManagePass';
+import PaymentHistory from '../../Pages/PaymentHistory';
+import ViewStatus from '../../Pages/ViewStatus';
+import SupportFeedback from '../../Pages/SupportFeedback';
+import AccountSettings from '../../Pages/AccountSettings';
+import dashboad from './dashboard.png';
+import Bussform from '../Bussform/Bussform';
+import { Option } from 'antd/es/mentions';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -25,6 +35,31 @@ function toArr(str) {
 };
 function onChange(date, dateString) {
   console.log(date, dateString);
+};
+const handleFinish = async (values) => {
+  try {
+    // Submit form data to backend
+    const response = await fetch('/api/submitBusPassForm', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      // Redirect to payment gateway with necessary parameters
+      window.location.href = `/payment?amount=${result.amount}&orderId=${result.orderId}`;
+    } else {
+      // Handle error
+      message.error('Form submission failed. Please try again.');
+    }
+  } catch (error) {
+    console.error('Form submission error:', error);
+    message.error('Form submission failed. Please try again.');
+  }
 };
 
 const props = {
@@ -59,21 +94,33 @@ const MyFormItem = ({ name, ...props }) => {
 
 const items = [
   getItem('Dashboard', '1', <PieChartOutlined />),
-  getItem('Passes', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
+  
+  getItem('Get Bus Pass', 'sub1', <UserOutlined />, [
+    getItem('New Application', '3'),
+    getItem('Renew Pass', '4'),
+    getItem('View Pass Status', '5'),
   ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
+  getItem('View Pass', '2',<IdcardOutlined />),
+  getItem('Manage pass', 'sub2', <TeamOutlined />),
+  getItem('Payment History', '6', <PayCircleOutlined />),
+  getItem('Support & Feedback', '7',  <DesktopOutlined />),
+  getItem('Notifiactions', '9', <NotificationOutlined /> ),
 ];
 const App = () => {
+  const [form] = Form.useForm();
+  
+
+  const [isRenewal, setIsRenewal] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     const [selectedOption, setSelectedOption] = useState('1');
   
     const handleMenuClick = (key) => {
       setSelectedOption(key);
+      if (key === '4') {
+        setIsRenewal(true);
+      } else {
+        setIsRenewal(false);
+      }
     };
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -91,37 +138,169 @@ const App = () => {
       case '1':
         return (
           <div>
-            <h4>Option 1 Selected</h4>
-            <p>Display some information for Option 1</p>
+            <h4>Welcome to the Dashboard</h4>
+            <p>Select an option from the sidebar to get started.</p>
+            <img  style={{ backgroundPosition: 'center', // Center align the background image
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'}}src={dashboad}/>
           </div>
         );
+        /////
+        case '4':
+          return (
+             <div>
+              <RenewPass/>
+            </div>
+          )
+          /////
+          case '2':
+            return(
+              <div>
+                <ViewPass/>
+              </div>
+            )
+
+            ////
+            case 'sub2':
+              return (
+                <div>
+                  <ManagePass/>
+                </div>
+              )
+
+              ///
+            case '6':
+              return (
+                <div>
+                   <PaymentHistory/>
+                </div>
+              )
+              ///
+              case '5':
+                return(
+                  <div>
+                    <ViewStatus/>
+                  </div>
+                )
+                //
+                case '7':
+                  return(
+                    <div>
+                      <SupportFeedback/>
+                    </div>
+                  )
+                  //
+                  case '9':
+                    return(
+                      <div>
+                        <AccountSettings/>
+                      </div>
+                    )
+
         ////////////////////////////////////////////////////////////////////////////////////////
-      case '2':
+      case '3':
+        // return(
+        // //   <div>
+        // // <Bussform/>
+        // // </div>
+        // )
         return (
-            <Form name="form_item_path" layout="vertical" onFinish={onFinish}>
-            <MyFormItemGroup prefix={['user']}>
-              <MyFormItemGroup prefix={['name']}>
-                <MyFormItem name="firstName" label="First Name">
-                  <Input />
-                </MyFormItem>
-                <MyFormItem name="lastName" label="Last Name">
-                  <Input />
-                </MyFormItem>
-              </MyFormItemGroup>
-      
-              <MyFormItem name="age" label="Age">
+          <Form form={form} layout="vertical" onFinish={handleFinish}>
+          <Form.Item name="serialNumber" label="S.No" rules={[{ required: true, message: 'Please enter Serial Number' }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="name" label="Name" rules={[{ required: true, message: 'Please enter your Name' }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="branch" label="Branch" rules={[{ required: true, message: 'Please select your Branch' }]}>
+            <Select placeholder="Select Branch">
+              <Option value="IT">IT</Option>
+              <Option value="CSE">CSE</Option>
+              <Option value="CSIT">CSIT</Option>
+              <Option value="CSE(AIML)">CSE(AIML)</Option>
+              <Option value="CSE(DS)">CSE(DS)</Option>
+              <Option value="ECE">ECE</Option>
+              <Option value="EEE">EEE</Option>
+              <Option value="Aero">Aero</Option>
+              <Option value="Mechanical">Mechanical</Option>
+              <Option value="MBA">MBA</Option>
+              <Option value="BBA">BBA</Option>
+              <Option value="M.Tech">M.Tech</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item name="year" label="Year" rules={[{ required: true, message: 'Please select your Year' }]}>
+            <Select placeholder="Select Year">
+              <Option value="1">1st Year</Option>
+              <Option value="2">2nd Year</Option>
+              <Option value="3">3rd Year</Option>
+              <Option value="4">4th Year</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item name="rollNumber" label="Roll Number" rules={[{ required: true, message: 'Please enter your Roll Number' }]}>
+            <Input />
+          </Form.Item>
+          {!isRenewal && (
+            <>
+              <Form.Item name="bloodGroup" label="Blood Group" rules={[{ required: true, message: 'Please enter your Blood Group' }]}>
                 <Input />
-              </MyFormItem>
-            </MyFormItemGroup>
-      <MyFormItem name="contactNumber" label="Contact Number">
+              </Form.Item>
+              <Form.Item name="fatherName" label="Father's Name" rules={[{ required: true, message: 'Please enter your Father\'s Name' }]}>
+                <Input />
+              </Form.Item>
+              <Form.Item name="presentAddress" label="Present Address" rules={[{ required: true, message: 'Please enter your Present Address' }]}>
+                <Input />
+              </Form.Item>
+              <Form.Item name="permanentAddress" label="Permanent Address" rules={[{ required: true, message: 'Please enter your Permanent Address' }]}>
+                <Input />
+              </Form.Item>
+            </>
+          )}
+          <Form.Item name="phoneNumber" label="Phone Number" rules={[{ required: true, message: 'Please enter your Phone Number' }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="email" label="Email Address" rules={[{ required: true, message: 'Please enter your Email Address' }]}>
+            <Input />
+          </Form.Item>
+          {isRenewal && (
+            <Form.Item name="previousPassNumber" label="Previous Pass Number" rules={[{ required: true, message: 'Please enter your Previous Pass Number' }]}>
               <Input />
-            </MyFormItem>
-      
-            <MyFormItem name="email" label="Email Address">
-              <Input />
-            </MyFormItem>
-      
-            <MyFormItem name="identType" label="Ident type">
+            </Form.Item>
+          )}
+          <Form.Item name="routeNumber" label="Route Number" rules={[{ required: false, message: 'Please enter your Route Number' }]}>
+            <Input />
+            <a href="URL_TO_BUS_ROUTE_DETAILS" target="_blank" style={{ display: 'block', marginTop: '8px', color: 'red' }}>Click here to view bus route details</a>
+          </Form.Item>
+          <Form.Item name="boardingPoint" label="Boarding Point" rules={[{ required: true, message: 'Please enter your Boarding Point' }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="passDuration" label="Pass Duration" rules={[{ required: true, message: 'Please select Pass Duration' }]}>
+            <Select placeholder="Select Pass Duration">
+              <Option value="halfSemester">Half Semester</Option>
+              <Option value="oneSemester">One Semester</Option>
+              <Option value="twoSemesters">Two Semesters (One Year)</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item name="receiptNumber" label="Receipt Number" rules={[{ required: true, message: 'Please enter your Receipt Number' }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="photo" label="Profile Image" rules={[{ required: true, message: 'Please upload your Profile Image' }]}>
+            <Upload beforeUpload={() => false}>
+              <Button icon={<UploadOutlined />}>Click to Upload</Button>
+            </Upload>
+          </Form.Item>
+          <Button type="primary" htmlType="submit">Submit</Button>
+        </Form>
+
+             
+        );
+      default:
+        return null;
+    }
+  };
+
+        
+            {/* <MyFormItem name="identType" label="Ident type">
               <Select>
                 <Select.Option value="demo">Demo</Select.Option>
               </Select>
@@ -137,21 +316,7 @@ const App = () => {
           <DatePicker onChange={onChange} />
           <br />
           <MonthPicker onChange={onChange} placeholder="Select month" />
-          <br />
-             <MyFormItem name="destination" label="Profile Image">
-              <Upload {...props}>
-          <Button icon={<UploadOutlined />}>Click to Upload</Button>
-        </Upload>
-            </MyFormItem>
-            <Button type="primary" htmlType="submit">
-              Add
-            </Button>
-          </Form>
-        );
-      default:
-        return null;
-    }
-  };
+          <br /> */}
 ///////////////////////////////////////////////////////////////////////////////
   return (
     
@@ -186,7 +351,9 @@ const App = () => {
         
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={({ key }) => handleMenuClick(key)} />
+        <Menu
+        onClick={handleMenuClick} 
+        theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={({ key }) => handleMenuClick(key)} />
       </Sider>
       <Layout>
         
@@ -211,8 +378,8 @@ const App = () => {
               margin: '16px 0',
             }}
           >
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            <Breadcrumb.Item>Student</Breadcrumb.Item>
+            <Breadcrumb.Item>Admin</Breadcrumb.Item>
           </Breadcrumb>
           <div
             style={{
@@ -220,6 +387,7 @@ const App = () => {
               minHeight: 360,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
+              backgroundImage:'URL(./dashboard.png)'
             }}
           >
             {renderContent()}
@@ -230,7 +398,7 @@ const App = () => {
             textAlign: 'center',
           }}
         >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          Chariot ©{new Date().getFullYear()} Created by Trio
         </Footer>
       </Layout>
     </Layout>

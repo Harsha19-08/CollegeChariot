@@ -3,6 +3,8 @@
     color: #fff;
     padding: 1rem 2rem;
     display: block;
+    position: sticky;
+    
   }
   
   .navbar-container {
@@ -115,8 +117,8 @@
   --nav-font-family: "Poppins", sans-serif;
   --nav-default-scale: 0.8;
   --nav-active-scale: 1;
-  --nav-position-left: 0;
-  --nav-position-right: unset;
+  --nav-position-left: unset;
+  --nav-position-right: 0;
   /* if you want to change sides just switch one property */
   /* from properties to "unset" and the other to 0 */
   /* title */
