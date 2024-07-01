@@ -56,6 +56,26 @@ We welcome contributions from developers of all skill levels! Whether you're fix
 - [College Chariot Presentation](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time%20.%20new.pptx)
 - [College Chariot Abstract](https://github.com/Harsha19-08/CollegeChariot/blob/main/1.abstract%20(2).docx)
 
+### Presentation Slides
+![Slide 1](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide1.PNG)
+![Slide 2](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide2.PNG)
+![Slide 3](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide3.PNG)
+![Slide 4](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide4.PNG)
+![Slide 5](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide5.PNG)
+![Slide 6](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide6.PNG)
+![Slide 7](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide7.PNG)
+![Slide 8](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide8.PNG)
+![Slide 9](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide9.PNG)
+![Slide 10](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide10.PNG)
+![Slide 11](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide11.PNG)
+![Slide 12](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide12.PNG)
+![Slide 13](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide13.PNG)
+![Slide 14](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide14.PNG)
+![Slide 15](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide15.PNG)
+![Slide 16](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide16.PNG)
+![Slide 17](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time/Slide17.PNG)
+
+
 
   
 ## Support 💬
