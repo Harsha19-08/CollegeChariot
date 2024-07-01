@@ -51,6 +51,13 @@ We welcome contributions from developers of all skill levels! Whether you're fix
 4. Push to your branch: `git push origin feature/my-feature`
 5. Submit a pull request!
 
+## Project Presentation and Documentation 📂
+
+- [College Chariot Presentation](https://github.com/Harsha19-08/CollegeChariot/blob/main/real%20time%20.%20new.pptx)
+- [College Chariot Abstract](https://github.com/Harsha19-08/CollegeChariot/blob/main/1.abstract%20(2).docx)
+
+
+  
 ## Support 💬
 
 For any questions, feedback, or assistance, feel free to reach out to us at support@collegechariot.com. We're here to help!
