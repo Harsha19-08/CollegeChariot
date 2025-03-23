@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+.footer-body{
+    display: flex;
+    min-height: 100vh;
+    align-items: flex-end;
+    background: #333;
+}
+footer{
+    position: relative;
+    width: 100%;
+    background:#1743e3;
+    min-height: 100px;
+    padding: 20px 50px;
+}

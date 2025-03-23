@@ -1,0 +1,115 @@
+.linksblock {
+    padding: 20px;
+    background-color: #f0f0f0;
+  }
+  
+  .linksmainblock {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .quicklinks, .Service, .Login {
+    background: #fff;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 20px;
+    flex: 1 1 30%;
+    min-width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .quicklinks-title h2, .Service .qtitle h2, .Login .qtitle h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .quicklinks-links ul, .Service .quicklinks-links ul, .Login .quicklinks-links ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .quicklinks-links ul li, .Service .quicklinks-links ul li, .Login .quicklinks-links ul li {
+    margin: 10px 0;
+  }
+  
+  .quicklinks-links ul li a, .Service .quicklinks-links ul li a, .Login .quicklinks-links ul li a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+  }
+  
+  .quicklinks-links ul li a:hover, .Service .quicklinks-links ul li a:hover, .Login .quicklinks-links ul li a:hover {
+    color: #0056b3;
+  }
+  
+  .quicklinks-links ul li a::before, .Service .quicklinks-links ul li a::before, .Login .quicklinks-links ul li a::before {
+    content: '➡'; /* Placeholder icon */
+    margin-right: 10px;
+    transition: margin-right 0.3s ease;
+  }
+  
+  .quicklinks-links ul li a:hover::before, .Service .quicklinks-links ul li a:hover::before, .Login .quicklinks-links ul li a:hover::before {
+    margin-right: 15px;
+  }
+  
+  @media (max-width: 768px) {
+    .linksmainblock {
+      flex-direction: column;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .quicklinks, .Service, .Login {
+      padding: 10px;
+    }
+  
+    .quicklinks-title h2, .Service .qtitle h2, .Login .qtitle h2 {
+      font-size: 18px;
+    }
+  
+    .quicklinks-links ul li a, .Service .quicklinks-links ul li a, .Login .quicklinks-links ul li a {
+      font-size: 14px;
+    }
+  }
+  
+
+  /* Hover effect for links */
+.quicklinks-links ul li a:hover::before,
+.Service .quicklinks-links ul li a:hover::before,
+.Login .quicklinks-links ul li a:hover::before {
+  margin-right: 0;
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: url('G:\recoverit\harsha recover\Recoverit 2024-10-14 at 13.18.00\fullstack\college-chariot\public\Bus.png') no-repeat center center;
+  background-size: contain;
+}
+
+/* Colorful animation effect for title */
+.quicklinks-title h2,
+.Service .qtitle h2,
+.Login .qtitle h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease, filter 0.3s ease;
+}
+
+.quicklinks-title h2:hover,
+.Service .qtitle h2:hover,
+.Login .qtitle h2:hover {
+  color: #007bff;
+  filter: hue-rotate(180deg);
+}
+
