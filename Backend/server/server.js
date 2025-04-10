@@ -1,6 +1,7 @@
 const express =require('express');
 const app =express();
 const router = require('./router/auth_router');
+const cors = require('cors');
 
 const connectDB = require('./utils/db');
 
@@ -18,6 +19,10 @@ app.use(express.json());/*middleware: THis line of
    subsequent route handles
    */
 
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
 app.use("/api/auth",router);
 

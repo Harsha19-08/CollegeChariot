@@ -1,0 +1,127 @@
+.settings-container {
+  padding: 24px;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.settings-card {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03),
+              0 2px 4px rgba(0, 0, 0, 0.03),
+              0 4px 8px rgba(0, 0, 0, 0.03);
+}
+
+.settings-card .ant-card-head {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 24px;
+}
+
+.settings-card .ant-card-head-title {
+  padding: 0;
+}
+
+.back-button {
+  padding: 20px;
+  height: auto;
+  line-height: 1;
+  color: #1890ff;
+}
+
+.back-button:hover {
+  color: #40a9ff;
+}
+
+.back-button .anticon {
+  margin-right: 8px;
+}
+
+.settings-section {
+  margin-bottom: 24px;
+}
+
+.settings-section h3 {
+  font-size: 16px;
+  margin-bottom: 16px;
+  color: #262626;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-section h3 .anticon {
+  color: #1890ff;
+  font-size: 18px;
+}
+
+.settings-section .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.settings-section .ant-form-item-label > label {
+  color: #595959;
+}
+
+/* Switch styles */
+.settings-section .ant-switch {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.settings-section .ant-switch-checked {
+  background-color: #1890ff;
+}
+
+/* Select styles */
+.settings-section .ant-select {
+  width: 100%;
+}
+
+.settings-section .ant-select-selector {
+  border-radius: 4px !important;
+}
+
+/* InputNumber styles */
+.settings-section .ant-input-number {
+  width: 160px;
+}
+
+/* Save button styles */
+.save-button {
+  margin-top: 24px;
+  height: 40px;
+  font-size: 16px;
+  width: 100%;
+}
+
+/* Divider styles */
+.settings-card .ant-divider {
+  margin: 32px 0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .settings-container {
+    padding: 16px;
+  }
+
+  .settings-card .ant-card-body {
+    padding: 16px;
+  }
+
+  .settings-section {
+    margin-bottom: 16px;
+  }
+
+  .settings-section h3 {
+    font-size: 14px;
+  }
+
+  .settings-section .ant-input-number {
+    width: 120px;
+  }
+
+  .save-button {
+    margin-top: 16px;
+    height: 36px;
+    font-size: 14px;
+  }
+} 

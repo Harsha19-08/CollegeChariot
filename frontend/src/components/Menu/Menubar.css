@@ -1,0 +1,349 @@
+.main-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0B1D35 0%, #1a365d 100%);
+  color: white;
+  position: relative;
+}
+
+/* Hero Section */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L45 30L30 60L15 30z' fill='%23FFD700' fill-opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  animation: backgroundFloat 30s linear infinite;
+}
+
+@keyframes backgroundFloat {
+  0% { background-position: 0 0; }
+  100% { background-position: 100px 100px; }
+}
+
+.hero-content {
+  max-width: 800px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.chariot-symbol {
+  font-size: 4rem;
+  color: #FFD700;
+  margin-bottom: 20px;
+  animation: rotate 10s linear infinite;
+  display: inline-block;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.brand h1 {
+  font-size: 4.5rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+  position: relative;
+}
+
+.tagline {
+  font-size: 1.5rem;
+  color: #FFD700;
+  margin-bottom: 15px;
+  font-style: italic;
+  text-shadow: 0 2px 10px rgba(255, 215, 0, 0.2);
+}
+
+.sub-tagline {
+  font-size: 1.2rem;
+  color: #a0aec0;
+  margin-bottom: 40px;
+}
+
+.divine-wheels {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15%;
+  pointer-events: none;
+}
+
+.wheel {
+  width: 100px;
+  height: 100px;
+  border: 3px solid #FFD700;
+  border-radius: 50%;
+  position: relative;
+  animation: wheelSpin 20s linear infinite;
+}
+
+.wheel::before {
+  content: '☸';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  color: #FFD700;
+}
+
+.wheel::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, #FFD700, transparent);
+}
+
+@keyframes wheelSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.get-started-btn, .sign-in-btn {
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.get-started-btn {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  color: #0B1D35;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.btn-arrow {
+  margin-left: 8px;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.get-started-btn:hover .btn-arrow {
+  transform: translateX(5px);
+}
+
+.get-started-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}
+
+.sign-in-btn {
+  background: transparent;
+  color: #FFD700;
+  border: 2px solid #FFD700;
+}
+
+.sign-in-btn:hover {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: #FFA500;
+}
+
+/* Features Section */
+.features-section {
+  padding: 100px 20px;
+  background: #0a1f35;
+  position: relative;
+  overflow: hidden;
+}
+
+.features-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #FFD700, transparent);
+}
+
+.section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 60px;
+}
+
+.section-header h6 {
+  color: #FFD700;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  color: white;
+  margin-bottom: 20px;
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.feature-card {
+  background: rgba(255, 215, 0, 0.05);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 215, 0, 0.08);
+  border-color: rgba(255, 215, 0, 0.2);
+}
+
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 24px;
+  color: #FFD700;
+}
+
+.feature-card h3 {
+  color: #FFD700;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.feature-card p {
+  color: #a0aec0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Footer */
+.main-footer {
+  background: #061627;
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.main-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #FFD700, transparent);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.footer-brand h3 {
+  color: #FFD700;
+  font-size: 1.5rem;
+}
+
+.copyright {
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .brand h1 {
+    font-size: 3rem;
+  }
+
+  .tagline {
+    font-size: 1.2rem;
+  }
+
+  .sub-tagline {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .get-started-btn, .sign-in-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .divine-wheels {
+    padding: 0 5%;
+  }
+
+  .wheel {
+    width: 80px;
+    height: 80px;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}

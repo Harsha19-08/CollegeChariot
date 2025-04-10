@@ -1,0 +1,339 @@
+.popular-routes-section {
+  padding: 60px 0;
+  
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Add animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 4px 6px rgba(23, 67, 227, 0.1);
+  }
+  50% {
+    box-shadow: 0 8px 15px rgba(23, 67, 227, 0.2);
+  }
+  100% {
+    box-shadow: 0 4px 6px rgba(23, 67, 227, 0.1);
+  }
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 0 20px;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  color: #1a1a1a;
+  margin-bottom: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.section-header p {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto 20px;
+}
+
+.routes-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.route-card {
+  border-radius: 12px;
+  overflow: hidden;
+  height: 100%;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              box-shadow 0.3s ease;
+}
+
+/* Apply different animation delays to cards */
+.route-card:nth-child(1) { animation-delay: 0.1s; }
+.route-card:nth-child(2) { animation-delay: 0.2s; }
+.route-card:nth-child(3) { animation-delay: 0.3s; }
+.route-card:nth-child(4) { animation-delay: 0.4s; }
+.route-card:nth-child(5) { animation-delay: 0.5s; }
+.route-card:nth-child(6) { animation-delay: 0.6s; }
+
+.route-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 20px rgba(23, 67, 227, 0.2);
+}
+
+.route-card-cover {
+  height: 100px;
+  background: linear-gradient(45deg, #1743e3, #4a90e2, #1743e3);
+  background-size: 200% 200%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: gradientFlow 8s ease infinite;
+}
+
+.route-number {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.route-card:hover .route-number {
+  transform: scale(1.1);
+}
+
+.route-locations {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 10px;
+  transition: transform 0.3s ease;
+}
+
+.route-card:hover .location-icon,
+.route-card:hover .arrow-icon {
+  color: #1743e3;
+  transform: scale(1.1);
+}
+
+.location-icon,
+.arrow-icon,
+.stops-icon {
+  transition: all 0.3s ease;
+}
+
+.location-icon {
+  font-size: 18px;
+  color: #1743e3;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.location-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.from, .to {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s ease;
+}
+
+.route-card:hover .from,
+.route-card:hover .to {
+  color: #1743e3;
+}
+
+.arrow-icon {
+  color: #1743e3;
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+.route-stops {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.stops-icon {
+  margin-right: 8px;
+  color: #1743e3;
+}
+
+.route-via {
+  margin-bottom: 16px;
+}
+
+.route-via p {
+  color: #666;
+  font-size: 0.85rem;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.find-route-btn {
+  width: 100%;
+  height: 38px;
+  background: #1743e3;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.find-route-btn:hover {
+  background: #1235b8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(23, 67, 227, 0.3);
+}
+
+.find-route-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.find-route-btn:hover::after {
+  left: 100%;
+}
+
+/* Add shimmer effect to route cards on hover */
+.route-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: 0.8s;
+}
+
+.route-card:hover::before {
+  left: 100%;
+}
+
+/* Responsive Design */
+@media (min-width: 1200px) {
+  .routes-container {
+    padding: 0 30px;
+  }
+  
+  .route-card {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 991px) {
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .popular-routes-section {
+    padding: 50px 0;
+  }
+  
+  .route-card-cover {
+    height: 90px;
+  }
+}
+
+@media (max-width: 767px) {
+  .section-header h2 {
+    font-size: 1.75rem;
+  }
+  
+  .section-header p {
+    font-size: 1rem;
+  }
+  
+  .routes-container {
+    padding: 0 10px;
+  }
+  
+  .route-card {
+    margin-bottom: 15px;
+  }
+  
+  .route-info {
+    padding: 12px;
+  }
+  
+  .from, .to {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .popular-routes-section {
+    padding: 40px 0;
+  }
+  
+  .section-header {
+    margin-bottom: 30px;
+  }
+  
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .route-card-cover {
+    height: 80px;
+  }
+  
+  .route-number {
+    font-size: 1.1rem;
+  }
+  
+  .route-via p {
+    -webkit-line-clamp: 1;
+  }
+} 
