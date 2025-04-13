@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './BusSchedule.css';
 import { busRoutes, getUniqueLocations } from '../../data/busRoutes';
-import { Select, DatePicker, message } from 'antd';
+import { Select, DatePicker, message, Table, Input, Button, Dropdown } from 'antd';
 import moment from 'moment';
+import { SearchOutlined, DownloadOutlined, FileTextOutlined, CodeOutlined, FilePdfOutlined, DownOutlined, SwapOutlined } from '@ant-design/icons';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const { Option } = Select;
 
@@ -111,6 +114,134 @@ const BusSchedule = () => {
     }
   };
 
+  // Function to convert routes data to CSV
+  const convertToCSV = (routes) => {
+    const headers = [
+      'Route No',
+      'From',
+      'To',
+      'Via',
+      'Driver Name',
+      'Driver Contact',
+      'Bus Incharge',
+      'Incharge Contact',
+      'Stops'
+    ];
+
+    const rows = routes.map(route => [
+      route.routeNo,
+      route.from,
+      route.to,
+      route.via,
+      route.driverName,
+      route.driverNo,
+      route.busIncharge,
+      route.busInchargeNo,
+      route.stops.join(' -> ')
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+
+    return csvContent;
+  };
+
+  // Function to generate PDF
+  const generatePDF = (routes) => {
+    const doc = new jsPDF();
+    
+    // Add title
+    doc.setFontSize(16);
+    doc.setTextColor(23, 67, 227);
+    doc.text('College Chariot - Bus Routes', 14, 15);
+    
+    // Prepare data for table
+    const headers = [
+      ['Route No', 'From', 'To', 'Driver', 'Contact', 'Incharge']
+    ];
+    
+    const data = routes.map(route => [
+      route.routeNo,
+      route.from,
+      route.to,
+      route.driverName,
+      route.driverNo,
+      route.busIncharge
+    ]);
+
+    // Add table
+    doc.autoTable({
+      head: headers,
+      body: data,
+      startY: 25,
+      styles: {
+        fontSize: 8,
+        cellPadding: 3
+      },
+      headStyles: {
+        fillColor: [23, 67, 227],
+        textColor: 255
+      },
+      alternateRowStyles: {
+        fillColor: [245, 247, 250]
+      }
+    });
+
+    return doc;
+  };
+
+  // Function to handle downloads
+  const handleDownload = (format) => {
+    try {
+      let content, fileName, mimeType;
+      
+      switch(format) {
+        case 'csv':
+          content = convertToCSV(busRoutes);
+          fileName = 'college_chariot_bus_routes.csv';
+          mimeType = 'text/csv;charset=utf-8;';
+          const blob = new Blob([content], { type: mimeType });
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', fileName);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          break;
+
+        case 'json':
+          content = JSON.stringify(busRoutes, null, 2);
+          fileName = 'college_chariot_bus_routes.json';
+          mimeType = 'application/json';
+          const jsonBlob = new Blob([content], { type: mimeType });
+          const jsonUrl = window.URL.createObjectURL(jsonBlob);
+          const jsonLink = document.createElement('a');
+          jsonLink.href = jsonUrl;
+          jsonLink.setAttribute('download', fileName);
+          document.body.appendChild(jsonLink);
+          jsonLink.click();
+          document.body.removeChild(jsonLink);
+          break;
+
+        case 'pdf':
+          const doc = generatePDF(busRoutes);
+          doc.save('college_chariot_bus_routes.pdf');
+          break;
+
+        default:
+          throw new Error('Unsupported format');
+      }
+      
+      message.success(`Routes exported successfully as ${format.toUpperCase()}`);
+    } catch (error) {
+      message.error('Failed to export routes. Please try again.');
+      console.error('Export error:', error);
+    }
+  };
+
   const RouteCard = ({ route }) => (
     <div className="route-card">
       <div className="route-header">
@@ -167,13 +298,19 @@ const BusSchedule = () => {
         </div>
       </div>
       <div className="route-stops">
-        <h4>Stops:</h4>
+        <h4>Bus Stops</h4>
         <div className="stops-list">
           {route.stops.map((stop, index) => (
-            <span key={index} className="stop-item">
+            <div 
+              key={index}
+              className={`stop-item ${
+                stop === route.from ? 'first' : 
+                stop === route.to ? 'last' : ''
+              }`}
+            >
+              <span className="stop-number">{index + 1}</span>
               {stop}
-              {index < route.stops.length - 1 && " → "}
-            </span>
+            </div>
           ))}
         </div>
       </div>
@@ -191,47 +328,37 @@ const BusSchedule = () => {
         <form onSubmit={handleSearch} className="search-form">
           <div className="search-inputs">
             <div className="form-group">
-              <label htmlFor="from">From</label>
+              <label>From</label>
               <Select
-                id="from"
-                showSearch
-                style={{ width: '100%' }}
-                placeholder="Select pickup point"
-                optionFilterProp="children"
+                value={searchParams.from}
                 onChange={(value) => handleLocationChange(value, 'from')}
-                value={searchParams.from || undefined}
-                allowClear
-              >
-                {locations.map(location => (
-                  <Option key={location} value={location}>{location}</Option>
-                ))}
-              </Select>
+                options={locations.map(loc => ({ value: loc, label: loc }))}
+                placeholder="Select pickup point"
+              />
             </div>
-            <div className="swap-icon" onClick={() => {
-              setSearchParams(prev => ({
-                ...prev,
-                from: prev.to,
-                to: prev.from
-              }));
-            }}>
-              <i className="fas fa-exchange-alt"></i>
-            </div>
+            
+            <button 
+              className="swap-icon-button"
+              onClick={() => {
+                setSearchParams(prev => ({
+                  ...prev,
+                  from: prev.to,
+                  to: prev.from
+                }));
+              }}
+              aria-label="Swap locations"
+            >
+              <SwapOutlined className="swap-icon" />
+            </button>
+            
             <div className="form-group">
-              <label htmlFor="to">To</label>
+              <label>To</label>
               <Select
-                id="to"
-                showSearch
-                style={{ width: '100%' }}
-                placeholder="Select destination"
-                optionFilterProp="children"
+                value={searchParams.to}
                 onChange={(value) => handleLocationChange(value, 'to')}
-                value={searchParams.to || undefined}
-                allowClear
-              >
-                {locations.map(location => (
-                  <Option key={location} value={location}>{location}</Option>
-                ))}
-              </Select>
+                options={locations.map(loc => ({ value: loc, label: loc }))}
+                placeholder="Select destination"
+              />
             </div>
             <div className="form-group">
               <label>Date</label>
@@ -244,17 +371,61 @@ const BusSchedule = () => {
               />
             </div>
           </div>
-          <button type="submit" className="search-button" disabled={!searchParams.from || !searchParams.to || loading}>
-            {loading ? 'Searching...' : 'Find Routes'}
-          </button>
+          <div className="button-container">
+            <button 
+              type="submit"
+              className="search-button"
+              disabled={!searchParams.from || !searchParams.to || loading}
+            >
+              {loading ? 'Searching...' : 'Find Routes'}
+            </button>
+
+            <div className="action-buttons">
+              <button 
+                className={`show-all-button ${showAllRoutes ? 'active' : ''}`}
+                onClick={toggleAllRoutes}
+                disabled={loading}
+                type="button"
+              >
+                {showAllRoutes ? 'Hide All Routes' : 'Show All Routes'}
+              </button>
+              
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: 'csv',
+                      label: 'Export as CSV',
+                      icon: <FileTextOutlined />,
+                      onClick: () => handleDownload('csv')
+                    },
+                    {
+                      key: 'json',
+                      label: 'Export as JSON',
+                      icon: <CodeOutlined />,
+                      onClick: () => handleDownload('json')
+                    },
+                    {
+                      key: 'pdf',
+                      label: 'Export as PDF',
+                      icon: <FilePdfOutlined />,
+                      onClick: () => handleDownload('pdf')
+                    }
+                  ]
+                }}
+                placement="bottomRight"
+                trigger={['click']}
+                overlayClassName="export-dropdown-overlay"
+              >
+                <Button className="export-dropdown-btn" type="button">
+                  <DownloadOutlined />
+                  <span>Export</span>
+                  <DownOutlined className="dropdown-arrow" />
+                </Button>
+              </Dropdown>
+            </div>
+          </div>
         </form>
-        <button 
-          className={`show-all-button ${showAllRoutes ? 'active' : ''}`}
-          onClick={toggleAllRoutes}
-          disabled={loading}
-        >
-          {showAllRoutes ? 'Hide All Routes' : 'Show All Routes'}
-        </button>
       </div>
 
       <div className="results-section">
