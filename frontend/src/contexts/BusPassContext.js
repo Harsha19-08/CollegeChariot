@@ -1,4 +1,6 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
+import { busPassService, BusPassApiError } from '../services/api/busPassService';
+import { message } from 'antd';
 import { 
   FileTextOutlined, 
   CheckCircleOutlined, 
@@ -6,7 +8,7 @@ import {
   CarOutlined 
 } from '@ant-design/icons';
 
-export const BusPassContext = createContext();
+const BusPassContext = createContext();
 
 export const BusPassProvider = ({ children }) => {
   // Mock data for development
@@ -37,35 +39,102 @@ export const BusPassProvider = ({ children }) => {
     }
   ];
 
-  const [activePass] = useState({
-    count: 2,
+  const [currentBusPass, setCurrentBusPass] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [activePass, setActivePass] = useState({
+    count: 0,
     totalRoutes: 15,
-    daysRemaining: 45,
-    status: 'Active'
+    daysRemaining: 0,
+    status: 'No Active Pass'
   });
 
-  const [recentActivity] = useState(mockRecentActivity);
-  const [loading, setLoading] = useState(false);
+  const handleError = (err) => {
+    const errorMessage = err instanceof BusPassApiError 
+      ? err.message 
+      : 'An unexpected error occurred';
+    setError(errorMessage);
+    message.error(errorMessage);
+    return { success: false, error: errorMessage };
+  };
 
-  // Function to handle form submission
   const handleBusPassSubmission = async (formData) => {
     setLoading(true);
+    setError(null);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return { success: true, data: { message: 'Bus pass application submitted successfully' } };
-    } catch (error) {
-      console.error('Bus pass submission error:', error);
-      return { success: false, error: 'Failed to submit bus pass application' };
+      const result = await busPassService.submitApplication(formData);
+      if (result.success && result.data) {
+        setCurrentBusPass(result.data);
+        // Update active pass count
+        setActivePass(prev => ({
+          ...prev,
+          count: prev.count + 1,
+          status: 'Active'
+        }));
+      }
+      return result;
+    } catch (err) {
+      return handleError(err);
     } finally {
       setLoading(false);
     }
   };
 
+  const checkExistingPass = async (rollNumber) => {
+    try {
+      const result = await busPassService.checkExistingPass(rollNumber);
+      if (result.passDetails) {
+        setCurrentBusPass(result.passDetails);
+        // Update active pass status
+        if (result.passDetails.status === 'active') {
+          setActivePass(prev => ({
+            ...prev,
+            count: prev.count + 1,
+            status: 'Active',
+            daysRemaining: calculateDaysRemaining(result.passDetails.validUntil)
+          }));
+        }
+      }
+      return result.hasPass;
+    } catch (err) {
+      handleError(err);
+      return false;
+    }
+  };
+
+  const calculateDaysRemaining = (validUntil) => {
+    const endDate = new Date(validUntil);
+    const today = new Date();
+    const diffTime = endDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return Math.max(0, diffDays);
+  };
+
+  const getBusPassDetails = async (receiptNo) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const busPass = await busPassService.getBusPassDetails(receiptNo);
+      setCurrentBusPass(busPass);
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const clearError = () => setError(null);
+
   const value = {
-    activePass,
-    recentActivity,
+    currentBusPass,
     loading,
-    handleBusPassSubmission
+    error,
+    handleBusPassSubmission,
+    checkExistingPass,
+    getBusPassDetails,
+    clearError,
+    recentActivity: mockRecentActivity,
+    activePass
   };
 
   return (

@@ -1,184 +1,108 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const auth = require('../middleware/auth');
 
-// Middleware to verify JWT token
-const auth = async (req, res, next) => {
+// Register user
+router.post('/register', async (req, res) => {
   try {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
-    if (!token) {
-      return res.status(401).json({ message: 'Authentication required' });
+    const { name, email, password, phone, department, registrationNumber, role } = req.body;
+
+    // Check if user already exists
+    let user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({ error: 'User already exists' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-    const user = await User.findById(decoded.userId);
+    // Create new user
+    user = new User({
+      name,
+      email,
+      password,
+      phone,
+      department,
+      registrationNumber,
+      role: role || 'student'
+    });
 
-    if (!user) {
-      throw new Error('User not found');
-    }
+    await user.save();
 
-    req.user = user;
-    req.token = token;
-    next();
+    // Generate auth token
+    const token = user.generateAuthToken();
+
+    // Set cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    });
+
+    res.status(201).json({
+      user,
+      message: 'Registration successful'
+    });
   } catch (error) {
-    console.error('Auth middleware error:', error);
-    res.status(401).json({ message: 'Please authenticate' });
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Error in registration' });
   }
-};
+});
 
-// Login route
+// Login user
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validate input
-    if (!email || !password) {
-      return res.status(400).json({ 
-        message: 'Email and password are required',
-        details: {
-          email: !email ? 'Email is required' : null,
-          password: !password ? 'Password is required' : null
-        }
-      });
-    }
-
-    // Validate email format
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      return res.status(400).json({ message: 'Invalid email format' });
-    }
-
-    // Find user and handle case sensitivity
-    const user = await User.findOne({ email: email.toLowerCase() });
+    // Find user by email
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(400).json({ error: 'Invalid credentials' });
     }
 
     // Check password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(400).json({ error: 'Invalid credentials' });
     }
 
-    // Generate JWT token
-    const token = jwt.sign(
-      { 
-        userId: user._id,
-        email: user.email,
-        role: user.role 
-      },
-      process.env.JWT_SECRET || 'your-secret-key',
-      { expiresIn: '7d' }
-    );
+    // Generate auth token
+    const token = user.generateAuthToken();
 
-    // Send response
+    // Set cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    });
+
     res.json({
-      token,
-      user: {
-        id: user._id,
-        email: user.email,
-        name: user.name,
-        role: user.role
-      }
+      user,
+      message: 'Login successful'
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ 
-      message: 'Server error during login',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
+    res.status(500).json({ error: 'Error in login' });
   }
 });
 
-// Register route
-router.post('/register', async (req, res) => {
-  try {
-    const { email, password, name } = req.body;
-
-    // Validate input
-    if (!email || !password || !name) {
-      return res.status(400).json({ 
-        message: 'All fields are required',
-        details: {
-          email: !email ? 'Email is required' : null,
-          password: !password ? 'Password is required' : null,
-          name: !name ? 'Name is required' : null
-        }
-      });
-    }
-
-    // Validate email format
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      return res.status(400).json({ message: 'Invalid email format' });
-    }
-
-    // Validate password length
-    if (password.length < 6) {
-      return res.status(400).json({ message: 'Password must be at least 6 characters' });
-    }
-
-    // Check if user already exists
-    const existingUser = await User.findOne({ email: email.toLowerCase() });
-    if (existingUser) {
-      return res.status(400).json({ message: 'Email already registered' });
-    }
-
-    // Create new user
-    const user = new User({
-      email: email.toLowerCase(),
-      password,
-      name: name.trim()
-    });
-
-    await user.save();
-
-    // Generate JWT token
-    const token = jwt.sign(
-      { 
-        userId: user._id,
-        email: user.email,
-        role: user.role 
-      },
-      process.env.JWT_SECRET || 'your-secret-key',
-      { expiresIn: '7d' }
-    );
-
-    // Send response
-    res.status(201).json({
-      token,
-      user: {
-        id: user._id,
-        email: user.email,
-        name: user.name,
-        role: user.role
-      }
-    });
-  } catch (error) {
-    console.error('Registration error:', error);
-    if (error.name === 'ValidationError') {
-      return res.status(400).json({ message: error.message });
-    }
-    res.status(500).json({ 
-      message: 'Server error during registration',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
-  }
-});
-
-// Get current user route
+// Get current user
 router.get('/me', auth, async (req, res) => {
   try {
-    res.json({
-      user: {
-        id: req.user._id,
-        email: req.user.email,
-        name: req.user.name,
-        role: req.user.role
-      }
-    });
+    res.json(req.user);
   } catch (error) {
-    console.error('Get user error:', error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ error: 'Error fetching user' });
+  }
+});
+
+// Logout user
+router.post('/logout', auth, async (req, res) => {
+  try {
+    // Clear the token cookie
+    res.clearCookie('token');
+    res.json({ message: 'Logged out successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error in logout' });
   }
 });
 
