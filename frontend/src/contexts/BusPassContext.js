@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { busPassService, BusPassApiError } from '../services/api/busPassService';
 import { message } from 'antd';
 import { 
@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 
 const BusPassContext = createContext();
+const API_URL = (process.env.REACT_APP_API_URL || 'http://localhost:5000').replace(/\/$/, '');
 
 export const BusPassProvider = ({ children }) => {
   // Mock data for development
@@ -40,6 +41,7 @@ export const BusPassProvider = ({ children }) => {
   ];
 
   const [currentBusPass, setCurrentBusPass] = useState(null);
+  const [paymentHistory, setPaymentHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activePass, setActivePass] = useState({
@@ -48,6 +50,48 @@ export const BusPassProvider = ({ children }) => {
     daysRemaining: 0,
     status: 'No Active Pass'
   });
+
+  // Fetch current bus pass and payment history
+  const fetchBusPassData = async () => {
+    setLoading(true);
+    try {
+      console.log('Fetching bus pass data...');
+      const response = await fetch(`${API_URL}/api/buspass/user/current`, {
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch bus pass data');
+      }
+
+      const data = await response.json();
+      console.log('Received bus pass data:', data);
+      
+      setCurrentBusPass(data.currentBusPass);
+      setPaymentHistory(data.paymentHistory);
+
+      // Update active pass status if there's a current bus pass
+      if (data.currentBusPass) {
+        console.log('Updating active pass status for:', data.currentBusPass);
+        setActivePass({
+          count: 1,
+          totalRoutes: 15,
+          daysRemaining: calculateDaysRemaining(data.currentBusPass.validUntil),
+          status: data.currentBusPass.status === 'approved' ? 'Active' : 'Pending Approval'
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching bus pass data:', error);
+      message.error('Failed to fetch bus pass data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch data on mount and after successful payment
+  useEffect(() => {
+    fetchBusPassData();
+  }, []);
 
   const handleError = (err) => {
     const errorMessage = err instanceof BusPassApiError 
@@ -64,13 +108,7 @@ export const BusPassProvider = ({ children }) => {
     try {
       const result = await busPassService.submitApplication(formData);
       if (result.success && result.data) {
-        setCurrentBusPass(result.data);
-        // Update active pass count
-        setActivePass(prev => ({
-          ...prev,
-          count: prev.count + 1,
-          status: 'Active'
-        }));
+        await fetchBusPassData(); // Refresh data after successful submission
       }
       return result;
     } catch (err) {
@@ -80,29 +118,8 @@ export const BusPassProvider = ({ children }) => {
     }
   };
 
-  const checkExistingPass = async (rollNumber) => {
-    try {
-      const result = await busPassService.checkExistingPass(rollNumber);
-      if (result.passDetails) {
-        setCurrentBusPass(result.passDetails);
-        // Update active pass status
-        if (result.passDetails.status === 'active') {
-          setActivePass(prev => ({
-            ...prev,
-            count: prev.count + 1,
-            status: 'Active',
-            daysRemaining: calculateDaysRemaining(result.passDetails.validUntil)
-          }));
-        }
-      }
-      return result.hasPass;
-    } catch (err) {
-      handleError(err);
-      return false;
-    }
-  };
-
   const calculateDaysRemaining = (validUntil) => {
+    if (!validUntil) return 0;
     const endDate = new Date(validUntil);
     const today = new Date();
     const diffTime = endDate - today;
@@ -127,10 +144,11 @@ export const BusPassProvider = ({ children }) => {
 
   const value = {
     currentBusPass,
+    paymentHistory,
     loading,
     error,
     handleBusPassSubmission,
-    checkExistingPass,
+    fetchBusPassData,
     getBusPassDetails,
     clearError,
     recentActivity: mockRecentActivity,

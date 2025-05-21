@@ -1,0 +1,159 @@
+.payment-history-container {
+  padding: 24px;
+  background: #f0f2f5;
+  min-height: calc(100vh - 64px);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.loading-container p {
+  margin-top: 16px;
+  color: #666;
+}
+
+.statistics-row {
+  margin-bottom: 24px;
+}
+
+.statistic-card {
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.statistic-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.total-payments {
+  background: linear-gradient(135deg, #1890ff0a 0%, #1890ff1a 100%);
+}
+
+.successful-payments {
+  background: linear-gradient(135deg, #52c41a0a 0%, #52c41a1a 100%);
+}
+
+.total-amount {
+  background: linear-gradient(135deg, #722ed10a 0%, #722ed11a 100%);
+}
+
+.statistic-card .ant-statistic-title {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.statistic-card .ant-statistic-content {
+  color: #1890ff;
+  font-size: 24px;
+}
+
+.history-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  margin-bottom: 24px;
+}
+
+.payment-table {
+  margin-top: 16px;
+}
+
+.payment-table .ant-table-thead > tr > th {
+  background: #fafafa;
+  color: #333;
+}
+
+.transaction-id {
+  font-family: monospace;
+  color: #1890ff;
+}
+
+.amount {
+  color: #52c41a;
+  font-weight: 500;
+}
+
+.route-details {
+  line-height: 1.5;
+}
+
+.boarding-point {
+  color: #666;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.note-section {
+  margin-top: 24px;
+}
+
+.note-card {
+  background: #fffbe6;
+  border: 1px solid #ffe58f;
+}
+
+.note-card p {
+  margin: 0;
+  color: #666;
+}
+
+.empty-description {
+  text-align: center;
+}
+
+.empty-description h3 {
+  color: #1890ff;
+  margin-bottom: 8px;
+}
+
+.empty-description p {
+  color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .payment-history-container {
+    padding: 16px;
+  }
+
+  .statistics-row {
+    margin-bottom: 16px;
+  }
+
+  .statistic-card .ant-statistic-title {
+    font-size: 14px;
+  }
+
+  .statistic-card .ant-statistic-content {
+    font-size: 20px;
+  }
+}
+
+/* Table row hover effect */
+.payment-table .ant-table-tbody > tr:hover > td {
+  background: #f0f7ff !important;
+}
+
+/* Animation for statistics cards */
+.statistic-card {
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 

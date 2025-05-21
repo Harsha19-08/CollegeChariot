@@ -16,6 +16,10 @@ const busPassSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  receiptNo: {
+    type: String,
+    unique: true
+  },
   department: {
     type: String,
     required: true
@@ -117,10 +121,23 @@ const busPassSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Generate receipt number before saving
+busPassSchema.pre('save', async function(next) {
+  if (!this.receiptNo) {
+    const date = new Date();
+    const year = date.getFullYear().toString().slice(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const count = await mongoose.model('BusPass').countDocuments() + 1;
+    this.receiptNo = `BP${year}${month}${count.toString().padStart(4, '0')}`;
+  }
+  next();
+});
+
 // Indexes for better query performance
 busPassSchema.index({ rollNumber: 1 });
 busPassSchema.index({ status: 1 });
 busPassSchema.index({ validUntil: 1 });
 busPassSchema.index({ userId: 1 });
+busPassSchema.index({ receiptNo: 1 }, { unique: true });
 
 module.exports = mongoose.model('BusPass', busPassSchema); 

@@ -1,0 +1,151 @@
+.manage-pass-container {
+  padding: 24px;
+  background: #f0f2f5;
+  min-height: calc(100vh - 64px);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.loading-container p {
+  margin-top: 16px;
+  color: #666;
+}
+
+.empty-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.empty-description {
+  text-align: center;
+}
+
+.empty-description h3 {
+  color: #1890ff;
+  margin-bottom: 8px;
+}
+
+.empty-description p {
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.status-card {
+  height: 100%;
+  background: linear-gradient(135deg, #1890ff0a 0%, #1890ff1a 100%);
+}
+
+.status-content {
+  text-align: center;
+  padding: 24px 0;
+}
+
+.status-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.status-text {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.pass-id {
+  color: #666;
+  font-size: 14px;
+}
+
+.details-card {
+  height: 100%;
+}
+
+.pass-statistic {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 8px;
+  height: 100%;
+}
+
+.pass-statistic .ant-statistic-title {
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.pass-statistic .ant-statistic-content {
+  color: #1890ff;
+}
+
+.timeline-card {
+  margin-top: 24px;
+}
+
+.timeline-card .ant-timeline {
+  padding: 24px;
+}
+
+.rejection-reason {
+  color: #ff4d4f;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .manage-pass-container {
+    padding: 16px;
+  }
+
+  .status-content {
+    padding: 16px 0;
+  }
+
+  .status-icon {
+    font-size: 36px;
+  }
+
+  .status-text {
+    font-size: 20px;
+  }
+
+  .pass-statistic {
+    padding: 12px;
+  }
+}
+
+/* Card hover effects */
+.status-card:hover,
+.details-card:hover,
+.timeline-card:hover {
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation for status icon */
+.status-icon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+} 

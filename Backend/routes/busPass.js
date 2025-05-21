@@ -93,11 +93,17 @@ router.post('/apply', auth, upload.single('photo'), async (req, res) => {
 
     res.json({
       success: true,
-      applicationId: busPass._id
+      applicationId: busPass._id,
+      receiptNo: busPass.receiptNo
     });
   } catch (error) {
     console.error('Error submitting application:', error);
-    res.status(500).json({ error: 'Failed to submit application' });
+    if (error.code === 11000) {
+      // Handle duplicate key error
+      res.status(400).json({ error: 'A bus pass with this roll number already exists' });
+    } else {
+      res.status(500).json({ error: 'Failed to submit application' });
+    }
   }
 });
 
@@ -238,6 +244,34 @@ router.get('/my-applications', auth, async (req, res) => {
   } catch (error) {
     console.error('Error fetching user applications:', error);
     res.status(500).json({ error: 'Failed to fetch applications' });
+  }
+});
+
+// Get user's current bus pass and payment history
+router.get('/user/current', auth, async (req, res) => {
+  try {
+    console.log('Fetching bus pass data for user:', req.user._id);
+    
+    const busPass = await BusPass.findOne({
+      userId: req.user._id,
+      status: { $in: ['pending', 'approved'] }
+    }).sort({ createdAt: -1 });
+
+    const paymentHistory = await BusPass.find({
+      userId: req.user._id,
+      paymentStatus: 'completed'
+    }).sort({ createdAt: -1 });
+
+    console.log('Found bus pass:', busPass);
+    console.log('Found payment history:', paymentHistory);
+
+    res.json({
+      currentBusPass: busPass,
+      paymentHistory
+    });
+  } catch (error) {
+    console.error('Error fetching user bus pass details:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

@@ -80,22 +80,25 @@ const Login = () => {
           password: formData.password
         });
 
-        const { token, user } = response.data;
+        const { token, user, message } = response.data;
 
-        if (!token || !user) {
-          throw new Error('Invalid response from server');
+        // Check if login was successful
+        if (message !== 'Login successful') {
+          throw new Error('Login failed');
         }
 
-        // First set the token
-        if (rememberMe) {
-          localStorage.setItem('token', token);
-          api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        } else {
-          sessionStorage.setItem('token', token);
-          api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        // Store token if provided (for non-cookie auth fallback)
+        if (token) {
+          if (rememberMe) {
+            localStorage.setItem('token', token);
+            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          } else {
+            sessionStorage.setItem('token', token);
+            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          }
         }
 
-        // Then store user info and set authentication status
+        // Store user info and set authentication status
         localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('isAuthenticated', 'true');
 
@@ -112,7 +115,7 @@ const Login = () => {
         
         if (error.response) {
           // Server responded with an error
-          const message = error.response.data.message || 'Invalid email or password';
+          const message = error.response.data.error || 'Invalid email or password';
           setErrors({
             submit: message
           });

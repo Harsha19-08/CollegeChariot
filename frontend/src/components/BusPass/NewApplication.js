@@ -25,7 +25,8 @@ import {
   UploadOutlined,
   CreditCardOutlined,
   LoadingOutlined,
-  CheckCircleOutlined
+  CheckCircleOutlined,
+  FileTextOutlined
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -37,7 +38,7 @@ const { Option } = Select;
 const { Step } = Steps;
 
 // Get configuration from environment variables
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = (process.env.REACT_APP_API_URL || 'http://localhost:5000').replace(/\/$/, '');
 const MAX_FILE_SIZE = parseInt(process.env.REACT_APP_MAX_FILE_SIZE) || 5242880;
 const SUPPORTED_IMAGE_TYPES = process.env.REACT_APP_SUPPORTED_IMAGE_TYPES?.split(',') || ['image/jpeg', 'image/png'];
 
@@ -192,7 +193,7 @@ const NewApplication = () => {
         // Check for existing pass
         try {
           const rollNumber = form.getFieldValue('rollNumber');
-          const response = await fetch(`${API_URL}/buspass/check/${rollNumber}`, {
+          const response = await fetch(`${API_URL}/api/buspass/check/${rollNumber}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -235,8 +236,8 @@ const NewApplication = () => {
 
   const handlePayment = async (applicationId, amount) => {
     try {
-      // Create payment order
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/buspass/create-payment`, {
+      // Create payment order with correct URL
+      const response = await fetch(`${API_URL}/api/buspass/create-payment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -267,8 +268,8 @@ const NewApplication = () => {
         order_id: orderId,
         handler: async function(response) {
           try {
-            // Verify payment
-            const verifyResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/buspass/verify-payment`, {
+            // Verify payment with correct URL
+            const verifyResponse = await fetch(`${API_URL}/api/buspass/verify-payment`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -286,8 +287,48 @@ const NewApplication = () => {
               throw new Error('Payment verification failed');
             }
 
-            message.success('Payment successful!');
-            navigate('/busspass/view');
+            const verificationData = await verifyResponse.json();
+
+            // Update application status in context
+            if (verificationData.success) {
+              // Add to recent activity
+              const newActivity = {
+                id: Date.now(),
+                title: 'Payment Completed',
+                timestamp: new Date().toLocaleString(),
+                icon: <FileTextOutlined style={{ color: '#722ed1' }} />
+              };
+
+              // Update the bus pass context
+              const updatedPassDetails = {
+                passId: applicationId,
+                status: 'Pending Approval',
+                type: form.getFieldValue('passDuration') + ' Month',
+                issueDate: new Date().toISOString(),
+                amount: calculateAmount(form.getFieldValue('passDuration')),
+                routeNumber: form.getFieldValue('routeNumber'),
+                boardingPoint: form.getFieldValue('boardingPoint')
+              };
+
+              // Update context with new pass details
+              handleBusPassSubmission({
+                ...updatedPassDetails,
+                recentActivity: newActivity
+              });
+            }
+
+            // Show success message and redirect
+            message.success('Payment successful! Your application is pending approval.');
+            
+            // Clear form data from localStorage since we're done
+            localStorage.removeItem('busPassFormData');
+            localStorage.removeItem('busPassPhotoPreview');
+
+            // Redirect to the bus pass dashboard
+            navigate('/busspass/');
+
+            // Refresh the page to ensure dashboard data is updated
+            window.location.reload();
           } catch (error) {
             console.error('Payment verification error:', error);
             message.error('Payment verification failed. Please contact support.');
@@ -315,7 +356,17 @@ const NewApplication = () => {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      const values = await form.validateFields();
+
+      // Get current form values
+      const allValues = form.getFieldsValue(true);
+      console.log("All form values:", allValues);
+
+      // Validate all fields from all steps
+      await form.validateFields([
+        'name', 'rollNumber', 'department', 'year',
+        'address', 'city', 'pincode', 'phone', 'email',
+        'routeNumber', 'boardingPoint', 'passDuration'
+      ]);
 
       if (!photoFile) {
         message.error('Please upload a photo');
@@ -323,38 +374,58 @@ const NewApplication = () => {
         return;
       }
 
+      // Calculate amount based on pass duration
+      const amount = calculateAmount(allValues.passDuration);
+
       // Create FormData for file upload
       const formData = new FormData();
+
+      // Append all form fields with their values
+      formData.append('name', allValues.name);
+      formData.append('rollNumber', allValues.rollNumber);
+      formData.append('department', allValues.department);
+      formData.append('year', allValues.year);
+      formData.append('email', allValues.email);
+      formData.append('phone', allValues.phone);
+      formData.append('address', allValues.address);
+      formData.append('city', allValues.city);
+      formData.append('pincode', allValues.pincode);
+      formData.append('routeNumber', allValues.routeNumber);
+      formData.append('boardingPoint', allValues.boardingPoint);
+      formData.append('passDuration', allValues.passDuration);
+      formData.append('amount', amount.toString());
       formData.append('photo', photoFile);
-      
-      // Append other form fields
-      Object.keys(values).forEach(key => {
-        formData.append(key, values[key]);
-      });
+
+      // Log all form data for debugging
+      console.log("Submitting form data:");
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
 
       // Submit application
-      const response = await fetch(`${API_URL}/buspass/apply`, {
+      const response = await fetch(`${API_URL}/api/buspass/apply`, {
         method: 'POST',
         body: formData,
         credentials: 'include'
       });
 
-      const data = await response.json();
+      const responseData = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit application');
+        throw new Error(responseData.error || 'Failed to submit application');
       }
 
-      // Clear saved form data
-      localStorage.removeItem('busPassFormData');
-      localStorage.removeItem('busPassPhotoPreview');
-
       // Handle payment
-      await handlePayment(data.applicationId, calculateAmount(values.passDuration));
+      await handlePayment(responseData.applicationId, amount);
 
     } catch (error) {
       console.error('Error submitting application:', error);
-      message.error(error.message || 'Failed to submit application');
+      if (error.errorFields) {
+        // Form validation error
+        message.error('Please fill in all required fields correctly');
+      } else {
+        message.error(error.message || 'Failed to submit application');
+      }
     } finally {
       setLoading(false);
     }
@@ -362,6 +433,7 @@ const NewApplication = () => {
 
   const calculateAmount = (duration) => {
     const prices = {
+      '0':1,
       '1': 3500,  // 1 month - ₹3,500
       '3': 10000, // 3 months - ₹10,000
       '6': 17500, // 6 months - ₹17,500
@@ -778,6 +850,7 @@ const NewApplication = () => {
               rules={[{ required: true, message: 'Please select pass duration' }]}
             >
               <Select placeholder="Select pass duration">
+              <Option value="1">0 Month - ₹1</Option>
                 <Option value="1">1 Month - ₹3,500</Option>
                 <Option value="3">3 Months - ₹10,000</Option>
                 <Option value="6">6 Months - ₹17,500</Option>
@@ -840,6 +913,40 @@ const NewApplication = () => {
     }
   };
 
+  // Modify the final step button to trigger form submission
+  const renderStepActions = () => {
+    return (
+      <div className="steps-action">
+        <Space>
+          {currentStep > 0 && (
+            <Button onClick={handlePrev}>
+              Previous
+            </Button>
+          )}
+          
+          {currentStep < steps.length - 1 && (
+            <Button type="primary" onClick={handleNext}>
+              Next
+            </Button>
+          )}
+          
+          {currentStep === steps.length - 1 && (
+            <Button
+              type="primary"
+              onClick={() => {
+                form.submit(); // This will trigger form submission
+              }}
+              loading={loading}
+              icon={<CheckCircleOutlined />}
+            >
+              Submit Application
+            </Button>
+          )}
+        </Space>
+      </div>
+    );
+  };
+
   return (
     <div className="new-application-container">
       <Card className="application-card">
@@ -859,41 +966,16 @@ const NewApplication = () => {
           ))}
         </Steps>
 
-          <Form
-            form={form}
-            layout="vertical"
-            className="application-form"
+        <Form
+          form={form}
+          layout="vertical"
+          className="application-form"
           onFinish={handleSubmit}
           onValuesChange={handleFormValuesChange}
-          >
-            {renderStepContent()}
-
-        <div className="steps-action">
-            <Space>
-          {currentStep > 0 && (
-                <Button onClick={handlePrev}>
-              Previous
-            </Button>
-          )}
-              
-          {currentStep < steps.length - 1 && (
-            <Button type="primary" onClick={handleNext}>
-              Next
-            </Button>
-          )}
-              
-          {currentStep === steps.length - 1 && (
-            <Button
-              type="primary"
-              onClick={handleSubmit}
-              loading={loading}
-                  icon={<CheckCircleOutlined />}
-            >
-                  Submit Application
-            </Button>
-          )}
-            </Space>
-        </div>
+          preserve={true} // Preserve form values between steps
+        >
+          {renderStepContent()}
+          {renderStepActions()}
         </Form>
       </Card>
     </div>
